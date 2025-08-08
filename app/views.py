@@ -6,6 +6,7 @@ from django.contrib import messages
 from .forms import ContactForm
 from .models import ContactMessage
 
+
 def register_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -101,6 +102,7 @@ def create_shipment(request):
             shipment = form.save(commit=False)
             shipment.user = request.user
             shipment.save()
+            messages.success(request, "Created a shpping successfuly...")
             return render(request, 'tracking/shipment_success.html', {
                 'tracking_id': shipment.tracking_id,
                 'message': 'Shipment created successfully!'
@@ -115,6 +117,7 @@ def track_shipment(request):
         tracking_id = request.POST['tracking_id']
         try:
             shipment = Shipment.objects.get(tracking_id=tracking_id)
+            messages.success(request, "You can track your goods here.")
             return render(request, 'tracking/tracking_result.html', {'shipment': shipment})
         except Shipment.DoesNotExist:
             return render(request, 'tracking/tracking_result.html', {'error': 'Tracking ID not found'})

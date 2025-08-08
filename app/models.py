@@ -32,6 +32,7 @@ class Shipment(models.Model):
         ('FCL & LCL Shipping by sea all over the world.', 'FCL & LCL Shipping by sea all over the world.'),
         ('Door to DOOR FTL land shipping to GCC Country', 'Door to DOOR FTL land shipping to GCC Country'),
     ]
+    
 
     COMMODITY_CHOICES = [
         ('Electronics', 'Electronics'),
@@ -56,6 +57,12 @@ class Shipment(models.Model):
     service = models.CharField(max_length=100, choices=SERVICE_CHOICES)
     commodity = models.CharField(max_length=100, choices=COMMODITY_CHOICES)
     destination_country = models.CharField(max_length=100)
+    current_location = models.CharField(
+    max_length=255,
+    default="Los Angeles",
+    editable=True,  # Prevents it from showing in ModelForms
+    help_text="Only admin can update this field."
+)
     weight = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
     note = models.TextField(blank=True, null=True)

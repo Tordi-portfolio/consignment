@@ -1,74 +1,158 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat with Admin</title>
+  <style>
+    /* ===== GENERAL STYLING ===== */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
 
-{% block content %}
+    header {
+      background: #0d6efd;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    header .home-btn {
+      background: white;
+      color: #0d6efd;
+      padding: 8px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-right: 20px;
+      user-select: none;
+      transition: background-color 0.2s;
+    }
+    header .home-btn:hover {
+      background: #e6e9f9;
+    }
+    header h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+    }
 
-{% load static %}
+    /* ===== CHAT BOX ===== */
+    .chat-box {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      max-width: 700px;
+      margin: 20px auto;
+      height: 450px;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
+    /* Smooth scrolling */
+    .chat-box::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-box::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
 
-            background: #f4f4f4;
-        }
-        .chat-box {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-            height: 400px;
-            overflow-y: scroll;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .message {
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-        }
-        .admin {
-            background: #d1e7dd;
-            text-align: left;
-        }
-        .user {
-            background: #cfe2ff;
-            text-align: right;
-        }
-        form {
-            display: flex;
-            max-width: 600px;
-            margin: 20px auto;
-        }
-        input[type="text"] {
-            flex: 1;
-            padding: 10px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 20px;
-            background: #0d6efd;
-            color: white;
-            border: none;
-        }
-    </style>
+    /* ===== MESSAGE BUBBLES ===== */
+    .message {
+      padding: 10px 15px;
+      margin: 8px 0;
+      border-radius: 20px;
+      max-width: 70%;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      display: inline-block;
+      clear: both;
+      overflow: hidden; /* contain floats */
+    }
+    .admin {
+      background: #d1e7dd;
+      float: left;
+      border-bottom-left-radius: 4px;
+      margin-right: auto; /* align left */
+    }
+    .user {
+      background: #0d6efd;
+      color: white;
+      float: right;
+      border-bottom-right-radius: 4px;
+      margin-left: auto; /* align right */
+    }
+
+    /* ===== FORM AREA ===== */
+    form {
+      display: flex;
+      max-width: 700px;
+      margin: 0 auto 20px auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 8px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+      border-radius: 6px;
+      background: #f0f2f5;
+      margin-right: 8px;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #0b5ed7;
+    }
+  </style>
 </head>
 <body>
 
-<h2 style="text-align: center;">Chat with Admin ({{ admin_user.username }})</h2>
+<header>
+  <a href="/" class="home-btn">Home</a>
+  <h2>Chat with Admin ({{ admin_user.username }})</h2>
+</header>
 
-<div class="chat-box">
-    {% for msg in messages %}
-        <div class="message {% if msg.sender == request.user %}user{% else %}admin{% endif %}">
-            <strong>{{ msg.sender.username }}:</strong> {{ msg.message }}
-        </div>
-    {% empty %}
-        <p>No messages yet.</p>
-    {% endfor %}
+<div class="chat-box" id="chatBox">
+  {% for msg in messages %}
+    <div class="message {% if msg.sender == request.user %}user{% else %}admin{% endif %}">
+      <strong>{{ msg.sender.username }}:</strong> {{ msg.message }}
+    </div>
+  {% empty %}
+    <p style="color: gray; text-align: center;">No messages yet.</p>
+  {% endfor %}
 </div>
 
 <form method="POST">
-    {% csrf_token %}
-    <input type="text" name="message" placeholder="Type your message..." required>
-    <button type="submit">Send</button>
+  {% csrf_token %}
+  <input type="text" name="message" placeholder="Type your message..." required />
+  <button type="submit">Send</button>
 </form>
 
-{% endblock %}
+<script>
+  // Auto-scroll to latest message
+  const chatBox = document.getElementById('chatBox');
+  chatBox.scrollTop = chatBox.scrollHeight;
+</script>
+
+</body>
+</html>

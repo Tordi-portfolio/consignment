@@ -16,4 +16,6 @@ class ContactForm(forms.ModelForm):
 class ShipmentForm(forms.ModelForm):
     class Meta:
         model = Shipment
-        exclude = ['user', 'tracking_id', 'status', 'created_at']
+        exclude = ['user', 'tracking_id', 'status', 'created_at', 'current_location']
+
+
