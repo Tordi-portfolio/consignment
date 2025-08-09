@@ -54,6 +54,8 @@ class Shipment(models.Model):
     tracking_id = models.CharField(max_length=20, unique=True, editable=False)
     full_name = models.CharField(max_length=100)
     email = models.EmailField()
+    mobile = models.IntegerField(max_length=13)
+    goods_name = models.CharField(max_length=100)
     service = models.CharField(max_length=100, choices=SERVICE_CHOICES)
     commodity = models.CharField(max_length=100, choices=COMMODITY_CHOICES)
     destination_country = models.CharField(max_length=100)

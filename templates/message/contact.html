@@ -3,146 +3,131 @@
 
 {% block content %}
 <style>
-    /* General container for the contact form */
-    .contact-container {
+    /* Unique styles for contact form (white theme) */
+    .ship-contact-container {
         max-width: 500px;
-        margin: 80px auto 40px auto; /* Increased top margin to account for fixed header */
+        margin: 80px auto 40px auto;
         padding: 30px;
-        background-color: #1a202c; /* Dark background for the form card */
+        background-color: #ffffff; /* White background */
         border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        color: #e6edf3;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        color: #333333;
         text-align: center;
+        font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Heading styles */
-    .contact-container h2 {
-        font-size: 2.25rem; /* text-4xl */
-        font-weight: 800; /* font-extrabold */
+    .ship-contact-container h2 {
+        font-size: 2rem;
+        font-weight: 800;
         margin-bottom: 15px;
-        color: #ffffff;
+        color: #000000;
     }
 
-    /* Subtitle/description */
-    .contact-container p {
+    .ship-contact-container p {
         font-size: 1rem;
         line-height: 1.6;
         margin-bottom: 30px;
-        color: #9ca3af;
+        color: #666666;
     }
 
-    /* Form group for labels and inputs */
-    .form-group {
+    .ship-form-group {
         margin-bottom: 20px;
         text-align: left;
     }
 
-    .form-group label {
+    .ship-form-group label {
         display: block;
         font-size: 0.95rem;
         font-weight: 600;
         margin-bottom: 8px;
-        color: #ffffff;
+        color: #000000;
     }
 
-    .form-group input[type="text"],
-    .form-group input[type="email"],
-    .form-group textarea {
+    .ship-form-group input[type="text"],
+    .ship-form-group input[type="email"],
+    .ship-form-group textarea {
         width: 100%;
         padding: 12px 15px;
-        border: 1px solid #334155; /* border-gray-700 */
+        border: 1px solid #cccccc;
         border-radius: 8px;
-        background-color: #0f172a; /* bg-gray-900 */
-        color: #e6edf3;
+        background-color: #ffffff;
+        color: #333333;
         font-size: 1rem;
-        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .form-group input[type="text"]:focus,
-    .form-group input[type="email"]:focus,
-    .form-group textarea:focus {
-        border-color: #60a5fa; /* border-blue-400 */
+    .ship-form-group input:focus,
+    .ship-form-group textarea:focus {
+        border-color: #60a5fa;
         outline: none;
-        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5); /* ring-blue-400/50 */
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
     }
 
-    .form-group textarea {
+    .ship-form-group textarea {
         min-height: 120px;
-        resize: vertical; /* Allow vertical resizing */
+        resize: vertical;
     }
 
-    /* Submit button */
-    .submit-button {
+    .ship-submit-button {
         width: 100%;
         padding: 12px 20px;
-        background-color: #3b82f6; /* bg-blue-500 */
+        background-color: #3b82f6;
         color: white;
-        font-size: 1.125rem; /* text-lg */
-        font-weight: 700; /* font-bold */
+        font-size: 1.125rem;
+        font-weight: 700;
         border: none;
         border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .submit-button:hover {
-        background-color: #2563eb; /* bg-blue-600 */
+    .ship-submit-button:hover {
+        background-color: #2563eb;
         transform: translateY(-2px);
     }
 
-    .submit-button:active {
+    .ship-submit-button:active {
         transform: translateY(0);
     }
 
-    /* Responsive adjustments */
     @media (max-width: 640px) {
-        .contact-container {
-            margin: 60px 15px 30px 15px; /* Adjust margins for smaller screens */
+        .ship-contact-container {
+            margin: 60px 15px 30px 15px;
             padding: 20px;
         }
-        .contact-container h2 {
-            font-size: 1.75rem; /* text-3xl on mobile */
+        .ship-contact-container h2 {
+            font-size: 1.75rem;
         }
-        .contact-container p {
+        .ship-contact-container p {
             font-size: 0.9rem;
-        }
-        .form-group label,
-        .form-group input,
-        .form-group textarea {
-            font-size: 0.9rem;
-        }
-        .submit-button {
-            font-size: 1rem;
-            padding: 10px 15px;
         }
     }
 </style>
 
-<div class="contact-container">
+<div class="ship-contact-container">
     <h2>Contact Us</h2>
     <p>Got a question or feedback? Fill out the form below, and we'll get back to you soon!</p>
 
-    <form method="post" action="{% url 'contact' %}"> {# This action URL needs to be defined in your Django urls.py #}
-        {% csrf_token %} {# Django's CSRF protection tag #}
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required>
+    <form method="post" action="{% url 'contact' %}">
+        {% csrf_token %}
+        <div class="ship-form-group">
+            <label for="ship-name">Name</label>
+            <input type="text" id="ship-name" name="name" placeholder="Your name" required>
         </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+        <div class="ship-form-group">
+            <label for="ship-email">Email</label>
+            <input type="email" id="ship-email" name="email" placeholder="your@email.com" required>
         </div>
-        <div class="form-group">
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject" placeholder="Subject of your message" required>
+        <div class="ship-form-group">
+            <label for="ship-subject">Subject</label>
+            <input type="text" id="ship-subject" name="subject" placeholder="Subject of your message" required>
         </div>
-        <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Your message here" rows="5" required></textarea>
+        <div class="ship-form-group">
+            <label for="ship-message">Message</label>
+            <textarea id="ship-message" name="message" placeholder="Your message here" rows="5" required></textarea>
         </div>
-        <button type="submit" class="submit-button">Send Message</button>
+        <button type="submit" class="ship-submit-button">Send Message</button>
     </form>
 </div>
 {% endblock %}

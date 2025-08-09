@@ -3,90 +3,94 @@
 
 {% block content %}
 <style>
-    .receive-container {
+    /* Container for the message list */
+    .ship-receive-container {
         max-width: 900px;
         margin: 80px auto 40px auto;
         padding: 30px;
-        background-color: #1a202c;
+        background-color: #ffffff; /* White background */
         border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        color: #e6edf3;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        color: #333333;
         text-align: center;
+        font-family: 'Segoe UI', sans-serif;
     }
 
-    .receive-container h2 {
+    .ship-receive-container h2 {
         font-size: 2.25rem;
         font-weight: 800;
         margin-bottom: 20px;
-        color: #ffffff;
+        color: #000000;
     }
 
-    .message-list {
+    /* Message list */
+    .ship-message-list {
         list-style: none;
         padding: 0;
     }
 
-    .message-item {
-        background-color: #0f172a;
+    .ship-message-item {
+        background-color: #f9fafb; /* Light gray card */
         border-radius: 8px;
         padding: 20px;
         margin-bottom: 15px;
         text-align: left;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
     }
 
-    .message-item h3 {
+    .ship-message-item h3 {
         font-size: 1.25rem;
         font-weight: bold;
-        color: #60a5fa; /* Blue for subject */
+        color: #2563eb; /* Blue for subject */
         margin-bottom: 5px;
     }
 
-    .message-item p {
+    .ship-message-item p {
         font-size: 0.95rem;
-        color: #e6edf3;
+        color: #444444;
         margin-bottom: 5px;
     }
 
-    .message-item .meta {
+    .ship-message-item .ship-meta {
         font-size: 0.85rem;
-        color: #9ca3af;
+        color: #6b7280;
         margin-top: 10px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid #e5e7eb;
         padding-top: 10px;
     }
 
     /* Responsive adjustments */
     @media (max-width: 640px) {
-        .receive-container {
+        .ship-receive-container {
             margin: 60px 15px 30px 15px;
             padding: 20px;
         }
-        .receive-container h2 {
+        .ship-receive-container h2 {
             font-size: 1.75rem;
         }
-        .message-item {
+        .ship-message-item {
             padding: 15px;
         }
-        .message-item h3 {
+        .ship-message-item h3 {
             font-size: 1.1rem;
         }
-        .message-item p {
+        .ship-message-item p {
             font-size: 0.85rem;
         }
     }
 </style>
 
-<div class="receive-container">
+<div class="ship-receive-container">
     <h2>Received Contact Messages</h2>
     {% if messages %}
-        <ul class="message-list">
+        <ul class="ship-message-list">
             {% for message in messages %}
-                <li class="message-item">
+                <li class="ship-message-item">
                     <h3>{{ message.subject }}</h3>
                     <p><strong>From:</strong> {{ message.name }} ({{ message.email }})</p>
                     <p>{{ message.message }}</p>
-                    <p class="meta">Received: {{ message.created_at|date:"F d, Y H:i" }}</p>
+                    <p class="ship-meta">Received: {{ message.created_at|date:"F d, Y H:i" }}</p>
                 </li>
             {% endfor %}
         </ul>
